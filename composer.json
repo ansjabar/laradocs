@@ -1,0 +1,33 @@
+{
+    "name": "ansjabar/laradocs",
+    "description": "Generate beautiful documentation for your Laravel applications with DocBlocks.",
+    "keywords": ["laravel", "annotation", "docs", "documentation", "api"],
+    "license": "MIT",
+    "type": "library",
+    "support": {
+        "issues": "https://github.com/ansjabar/laradocs/issues",
+        "source": "https://github.com/ansjabar/laradocs"
+    },
+    "authors": [
+        {
+            "name": "Ans Jabar",
+            "email": "ans.jabar@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "AnsJabar\\LaraDocs\\": "src/"
+        }
+    },
+    "minimum-stability": "stable",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "AnsJabar\\LaraDocs\\LaraDocsServiceProvider"
+            ]
+        }
+    }
+}
