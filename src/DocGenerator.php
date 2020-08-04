@@ -130,16 +130,13 @@ class DocGenerator extends Controller
     }
     private function isValidGroupAnnotation($group_annorations)
     {
-        if(empty($group_annorations['title']) || empty($group_annorations['description']))
+        if(empty($group_annorations['title']))
             return false;
         return true;
     }
     private function isValidMethodAnnotation($method_annorations)
     {
-        if(
-            empty($method_annorations['title']) ||
-            empty($method_annorations['description'])
-        )
+        if(empty($method_annorations['title']))
             return false;
         return true;
     }

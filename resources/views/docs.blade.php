@@ -88,9 +88,9 @@
                         <tr>
                             <td style="text-align: left;"><p>{{ $val['name'] }}</p>
                                 @if($val['required'] == "REQUIRED")
-                                <span class="required">REQUIRED</span>
+                                    <span class="badge badge-danger">REQUIRED</span>
                                 @else
-                                <span class="optional">OPTIONAL</span>
+                                    <span class="badge badge-success">OPTIONAL</span>
                                 @endif
                             </td>
                             <td style="text-align: left;">{{ $val['type'] }}</td>
@@ -115,12 +115,12 @@
                         <tr>
                             <td style="text-align: left;"><p>{{ $val['name'] }}</p>
                                 @if($val['required'] == "REQUIRED")
-                                <span class="required">REQUIRED</span>
+                                    <span class="badge badge-danger">REQUIRED</span>
                                 @else
-                                <span class="optional">OPTIONAL</span>
+                                    <span class="badge badge-success">OPTIONAL</span>
                                 @endif
                             </td>
-                            <td style="text-align: left;"><code>{{ $val['type'] }}</code></td>
+                            <td style="text-align: left;"><code>{!! $val['type'] !!}</code></td>
                             <td style="text-align: left;">{{ $val['description'] }}</td>
                         </tr>
                         @endforeach
@@ -142,9 +142,9 @@
                         <tr>
                             <td style="text-align: left;"><p>{{ $val['name'] }}</p>
                                 @if($val['required'] == "REQUIRED")
-                                <span class="required">REQUIRED</span>
+                                    <span class="badge badge-danger">REQUIRED</span>
                                 @else
-                                <span class="optional">OPTIONAL</span>
+                                    <span class="badge badge-success">OPTIONAL</span>
                                 @endif
                             </td>
                             <td style="text-align: left;">{{ $val['type'] }}</td>
@@ -160,8 +160,8 @@
                         <li class="tab tab-active"><a href="#" class="success-a">Success</a></li>
                         <li class="tab"><a href="#" class="failure-a">Failure</a></li>
                     </ul>
-                    <pre class="language-json">{{ json_encode($resource['successResponse']) }}</pre>
-                    <pre class="language-json hide">{{ json_encode($resource['failureResponse']) }}</pre>
+                    <pre class="language-json">{!! json_encode($resource['successResponse']) !!}</pre>
+                    <pre class="language-json hide">{!! json_encode($resource['failureResponse']) !!}</pre>
                 </div>
                 <hr>
                 @endforeach
