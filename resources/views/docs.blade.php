@@ -58,22 +58,22 @@
                 <p>{{ $arr::get($resources, 'group.description') }}</p>
                 <hr>
                 <ul>
-                    @foreach($resources['resources'] as $resource)
+                    @foreach($resources->resources as $resource)
                         <li><a href="#{{ $arr::get($resource, 'slug') }}">{{ $arr::get($resource, 'title') }}</a></li>
                     @endforeach
                 </ul>
                 <p>
                     <a name="login"></a>
                 </p>
-                @foreach($resources['resources'] as $resource)
+                @foreach($resources->resources as $resource)
                 <h2><a id="{{ $arr::get($resource, 'slug') }}">{{ $arr::get($resource, 'title') }}</a></h2>
-                <p>{{ $resource['description'] }}</p>
+                <p>{{ $resource->description }}</p>
                 <h3>Endpoint</h3>
                 <h4>Live</h4>
-                <p class="endpoint"><span class="label label-success">{{ implode($resource['method'], '/') }}</span><code>{{ $arr::get($endpoints, 'live') }}/{{ $resource['path'] }}</code></p>
+                <p class="endpoint"><span class="label label-success">{{ implode($resource->method, '/') }}</span><code>{{ $arr::get($endpoints, 'live') }}/{{ $resource->path }}</code></p>
                 <h4>Sandbox</h4>
-                <p class="endpoint"><span class="label label-success">{{ implode($resource['method'], '/') }}</span><code>{{ $arr::get($endpoints, 'sandbox') }}/{{ $resource['path'] }}</code></p>
-                @if(is_array($resource['queryParams']))
+                <p class="endpoint"><span class="label label-success">{{ implode($resource->method, '/') }}</span><code>{{ $arr::get($endpoints, 'sandbox') }}/{{ $resource->path }}</code></p>
+                @if(is_array($resource->queryParams))
                 <h3>Query Parameters</h3>
                 <table>
                     <thead>
@@ -84,23 +84,23 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($resource['queryParams'] as $key => $val)
+                        @foreach($resource->queryParams as $key => $val)
                         <tr>
-                            <td style="text-align: left;"><p>{{ $val['name'] }}</p>
-                                @if($val['required'] == "REQUIRED")
+                            <td style="text-align: left;"><p>{{ $val->name }}</p>
+                                @if($val->required == "REQUIRED")
                                     <span class="badge badge-danger">REQUIRED</span>
                                 @else
                                     <span class="badge badge-success">OPTIONAL</span>
                                 @endif
                             </td>
-                            <td style="text-align: left;">{{ $val['type'] }}</td>
-                            <td style="text-align: left;">{{ $val['description'] }}</td>
+                            <td style="text-align: left;">{{ $val->type }}</td>
+                            <td style="text-align: left;">{{ $val->description }}</td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
                 @endif
-                @if(is_array($resource['headers']))
+                @if(is_array($resource->headers))
                 <h3>Header</h3>
                 <table>
                     <thead>
@@ -111,23 +111,23 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($resource['headers'] as $key => $val)
+                        @foreach($resource->headers as $key => $val)
                         <tr>
-                            <td style="text-align: left;"><p>{{ $val['name'] }}</p>
-                                @if($val['required'] == "REQUIRED")
+                            <td style="text-align: left;"><p>{{ $val->name }}</p>
+                                @if($val->required == "REQUIRED")
                                     <span class="badge badge-danger">REQUIRED</span>
                                 @else
                                     <span class="badge badge-success">OPTIONAL</span>
                                 @endif
                             </td>
-                            <td style="text-align: left;"><code>{!! $val['type'] !!}</code></td>
-                            <td style="text-align: left;">{{ $val['description'] }}</td>
+                            <td style="text-align: left;"><code>{!! $val->type !!}</code></td>
+                            <td style="text-align: left;">{{ $val->description }}</td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
                 @endif
-                @if(is_array($resource['dataParams']))
+                @if(is_array($resource->dataParams))
                 <h3>Data Parameters</h3>
                 <table>
                     <thead>
@@ -138,17 +138,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($resource['dataParams'] as $key => $val)
+                        @foreach($resource->dataParams as $key => $val)
                         <tr>
-                            <td style="text-align: left;"><p>{{ $val['name'] }}</p>
-                                @if($val['required'] == "REQUIRED")
+                            <td style="text-align: left;"><p>{{ $val->name }}</p>
+                                @if($val->required == "REQUIRED")
                                     <span class="badge badge-danger">REQUIRED</span>
                                 @else
                                     <span class="badge badge-success">OPTIONAL</span>
                                 @endif
                             </td>
-                            <td style="text-align: left;">{{ $val['type'] }}</td>
-                            <td style="text-align: left;">{{ $val['description'] }}</td>
+                            <td style="text-align: left;">{{ $val->type }}</td>
+                            <td style="text-align: left;">{{ $val->description }}</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -160,8 +160,8 @@
                         <li class="tab tab-active"><a href="#" class="success-a">Success</a></li>
                         <li class="tab"><a href="#" class="failure-a">Failure</a></li>
                     </ul>
-                    <pre class="language-json">{!! json_encode($resource['successResponse']) !!}</pre>
-                    <pre class="language-json hide">{!! json_encode($resource['failureResponse']) !!}</pre>
+                    <pre class="language-json">{!! json_encode($resource->successResponse) !!}</pre>
+                    <pre class="language-json hide">{!! json_encode($resource->failureResponse) !!}</pre>
                 </div>
                 <hr>
                 @endforeach

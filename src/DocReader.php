@@ -12,7 +12,7 @@ class DocReader extends Controller
     public function index($group_name = null)
     {
         $docs = $this -> readDocFile();
-        $docs = collect(json_decode($docs, true));
+        $docs = collect(json_decode($docs));
         $groups = $docs -> pluck('group') -> all();
         $resources = $this -> resources($docs, $group_name);
         return view('laradocs::docs')->with('groups', $groups)
