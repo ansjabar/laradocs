@@ -123,7 +123,7 @@ class DocGenerator extends Controller
         }
         else if($param_name == "headers")
         {
-            $value = $array[1];
+            $value = $array[1] ?? '';
             return $name;
         }
         return null;

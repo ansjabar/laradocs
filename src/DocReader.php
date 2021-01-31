@@ -9,6 +9,10 @@ use Illuminate\Support\Arr;
 
 class DocReader extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware( !empty(config('laradocs.middleware')) ? config('laradocs.middleware') : new \StdClass );
+    }
     public function index($group_name = null)
     {
         $docs = $this -> readDocFile();

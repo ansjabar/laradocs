@@ -47,32 +47,32 @@
                         <!-- <h2>Get Started</h2> -->
                         <ul>
                             @foreach($groups as $group)
-                                <li><a @if($group_name != $arr::get($group, 'slug')) href="{{ route('laradocs.read', ['group_name'=> $arr::get($group, 'slug')]) }}" @else class="bg-primary" @endif >{{ $arr::get($group, 'title') }}</a></li>
+                                <li><a @if($group_name != $group->slug)) href="{{ route('laradocs.read', ['group_name'=> $group->slug]) }}" @else class="bg-primary" @endif >{{ $group->title }}</a></li>
                             @endforeach
                         </ul>
                     </li>
                 </ul>
             </div>
             <div class="documentation is-dark expanded">
-                <h1>{{ $arr::get($resources, 'group.title') }}</h1>
-                <p>{{ $arr::get($resources, 'group.description') }}</p>
+                <h1>{{ $resources->group->title }}</h1>
+                <p>{{ $resources->group->description }}</p>
                 <hr>
                 <ul>
                     @foreach($resources->resources as $resource)
-                        <li><a href="#{{ $arr::get($resource, 'slug') }}">{{ $arr::get($resource, 'title') }}</a></li>
+                        <li><a href="#{{ $resource->slug }}">{{ $resource->title }}</a></li>
                     @endforeach
                 </ul>
                 <p>
                     <a name="login"></a>
                 </p>
                 @foreach($resources->resources as $resource)
-                <h2><a id="{{ $arr::get($resource, 'slug') }}">{{ $arr::get($resource, 'title') }}</a></h2>
+                <h2><a id="{{ $resource->slug }}">{{ $resource->title }}</a></h2>
                 <p>{{ $resource->description }}</p>
                 <h3>Endpoint</h3>
                 <h4>Live</h4>
-                <p class="endpoint"><span class="label label-success">{{ implode($resource->method, '/') }}</span><code>{{ $arr::get($endpoints, 'live') }}/{{ $resource->path }}</code></p>
+                <p class="endpoint"><span class="label label-success">{{ implode($resource->method, '/') }}</span><code>{{ $endpoints['live'] }}/{{ $resource->path }}</code></p>
                 <h4>Sandbox</h4>
-                <p class="endpoint"><span class="label label-success">{{ implode($resource->method, '/') }}</span><code>{{ $arr::get($endpoints, 'sandbox') }}/{{ $resource->path }}</code></p>
+                <p class="endpoint"><span class="label label-success">{{ implode($resource->method, '/') }}</span><code>{{ $endpoints['sandbox'] }}/{{ $resource->path }}</code></p>
                 @if(is_array($resource->queryParams))
                 <h3>Query Parameters</h3>
                 <table>
@@ -80,47 +80,67 @@
                         <tr>
                             <th style="text-align: left;">Field</th>
                             <th style="text-align: left;">Type</th>
+                            <th style="text-align: left;">Existance</th>
                             <th style="text-align: left;">Description</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($resource->queryParams as $key => $val)
                         <tr>
-                            <td style="text-align: left;"><p>{{ $val->name }}</p>
+                            <td style="text-align: left;"><code>{{ $val->name }}</code></td>
+                            <td style="text-align: left;"><code>{{ $val->type }}</code></td>
+                            <td>
                                 @if($val->required == "REQUIRED")
                                     <span class="badge badge-danger">REQUIRED</span>
                                 @else
                                     <span class="badge badge-success">OPTIONAL</span>
                                 @endif
                             </td>
-                            <td style="text-align: left;">{{ $val->type }}</td>
                             <td style="text-align: left;">{{ $val->description }}</td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
                 @endif
-                @if(is_array($resource->headers))
+                @if(is_array($resource->headers) || is_array(config('laradocs.default_headers')))
                 <h3>Header</h3>
                 <table>
                     <thead>
                         <tr>
-                            <th style="text-align: left;">Field</th>
+                            <th style="text-align: left;">Name</th>
                             <th style="text-align: left;">Value</th>
+                            <th style="text-align: left;">Existance</th>
                             <th style="text-align: left;">Description</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($resource->headers as $key => $val)
+                        @foreach ((array)config('laradocs.default_headers') as $key => $header)
+                            @if( !isset($resource->$key) || $resource->$key == true )
+                                <tr>
+                                    <td style="text-align: left;"><code>{{ $header['name'] }}</code></td>
+                                    <td style="text-align: left;"><code>{!! $header['type'] !!}</code></td>
+                                    <td>
+                                        @if($header['required'] == "REQUIRED")
+                                            <span class="badge badge-danger">REQUIRED</span>
+                                        @else
+                                            <span class="badge badge-success">OPTIONAL</span>
+                                        @endif
+                                    </td>
+                                    <td style="text-align: left;">{{ $header['description'] }}</td>
+                                </tr>
+                            @endif
+                        @endforeach
+                        @foreach((array)$resource->headers as $key => $val)
                         <tr>
-                            <td style="text-align: left;"><p>{{ $val->name }}</p>
+                            <td style="text-align: left;"><code>{{ $val->name }}</code></td>
+                            <td style="text-align: left;"><code>{!! $val->type !!}</code></td>
+                            <td>
                                 @if($val->required == "REQUIRED")
                                     <span class="badge badge-danger">REQUIRED</span>
                                 @else
                                     <span class="badge badge-success">OPTIONAL</span>
                                 @endif
                             </td>
-                            <td style="text-align: left;"><code>{!! $val->type !!}</code></td>
                             <td style="text-align: left;">{{ $val->description }}</td>
                         </tr>
                         @endforeach
@@ -134,20 +154,22 @@
                         <tr>
                             <th style="text-align: left;">Field</th>
                             <th style="text-align: left;">Type</th>
+                            <th style="text-align: left;">Existance</th>
                             <th style="text-align: left;">Description</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($resource->dataParams as $key => $val)
                         <tr>
-                            <td style="text-align: left;"><p>{{ $val->name }}</p>
+                            <td style="text-align: left;"><code>{{ $val->name }}</code></td>
+                            <td style="text-align: left;"><code>{{ $val->type }}</code></td>
+                            <td>
                                 @if($val->required == "REQUIRED")
                                     <span class="badge badge-danger">REQUIRED</span>
                                 @else
                                     <span class="badge badge-success">OPTIONAL</span>
                                 @endif
                             </td>
-                            <td style="text-align: left;">{{ $val->type }}</td>
                             <td style="text-align: left;">{{ $val->description }}</td>
                         </tr>
                         @endforeach

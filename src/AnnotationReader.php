@@ -99,14 +99,23 @@ class AnnotationReader extends Controller
     }
     private function methodBlockKeys()
     {
-        return array_merge([
+        $keys = $this->defaultHeaders();
+        $keys = array_merge($keys, [
             'title',
+            'auth',
             'description',
             'method',
             'queryParams',
             'dataParams',
             'headers',
-        ], $this -> responseKeys());
+        ]);
+        return array_merge($keys, $this -> responseKeys());
+    }
+    private function defaultHeaders()
+    {
+        return is_array( config('laradocs.default_headers') ) ?
+            array_keys(config('laradocs.default_headers')) : 
+            [];
     }
     private function responseKeys()
     {
