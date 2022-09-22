@@ -70,9 +70,9 @@
                 <p>{{ $resource->description }}</p>
                 <h3>Endpoint</h3>
                 <h4>Live</h4>
-                <p class="endpoint"><span class="label label-success">{{ implode($resource->method, '/') }}</span><code>{{ $endpoints['live'] }}/{{ $resource->path }}</code></p>
+                <p class="endpoint"><span class="label label-success">{{ implode('/', $resource->method) }}</span><code>{{ $endpoints['live'] }}/{{ $resource->path }}</code></p>
                 <h4>Sandbox</h4>
-                <p class="endpoint"><span class="label label-success">{{ implode($resource->method, '/') }}</span><code>{{ $endpoints['sandbox'] }}/{{ $resource->path }}</code></p>
+                <p class="endpoint"><span class="label label-success">{{ implode('/', $resource->method) }}</span><code>{{ $endpoints['sandbox'] }}/{{ $resource->path }}</code></p>
                 @if(is_array($resource->queryParams))
                 <h3>Query Parameters</h3>
                 <table>
