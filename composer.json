@@ -14,9 +14,6 @@
             "email": "ans.jabar@gmail.com"
         }
     ],
-    "require": {
-        "php": "^7.0"
-    },
     "autoload": {
         "psr-4": {
             "AnsJabar\\LaraDocs\\": "src/"
